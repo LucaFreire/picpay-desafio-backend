@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace picpay_desafio_backend.cs.Model;
+namespace picpay_desafio_backend.Model;
 
 public partial class PicpayDesafioBackendContext : DbContext
 {

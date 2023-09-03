@@ -1,3 +1,6 @@
+using picpay_desafio_backend.Model;
+using picpay_desafio_backend.Respositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(opt =>
@@ -17,8 +20,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddSingleton<PicpayDesafioBackendContext>();
+builder.Services.AddTransient<IRepository<Transaction>, TransactionsRespository>();
 
+
+
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
