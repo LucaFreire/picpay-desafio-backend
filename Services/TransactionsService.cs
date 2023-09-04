@@ -4,8 +4,10 @@ namespace picpay_desafio_backend.Services;
 
 public class TransactionsService : ITransactionsService
 {
-    public Task<bool> IsSufficientMoney(Transaction transaction)
+    public bool IsSufficientMoney(User user, decimal? transactionValue)
     {
-        throw new NotImplementedException();
+        if (user.Balance >= transactionValue)
+            return true;
+        return false;
     }
 }

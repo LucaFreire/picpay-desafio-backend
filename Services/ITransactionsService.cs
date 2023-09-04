@@ -4,5 +4,5 @@ namespace picpay_desafio_backend.Services;
 
 public interface ITransactionsService
 {
-    Task<bool> IsSufficientMoney(Transaction transaction);
+    bool IsSufficientMoney(User user, decimal? transactionValue);
 }
