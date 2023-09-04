@@ -1,5 +1,6 @@
 using picpay_desafio_backend.Model;
 using picpay_desafio_backend.Respositories;
+using picpay_desafio_backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<PicpayDesafioBackendContext>();
 builder.Services.AddTransient<IRepository<Transaction>, TransactionsRespository>();
+builder.Services.AddTransient<IRepository<User>, UserRepository>();
 
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITransactionsService, TransactionsService>();
 
 
 var app = builder.Build();

@@ -1,21 +1,21 @@
-
+using System.Collections.Immutable;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using picpay_desafio_backend.Model;
 
 namespace picpay_desafio_backend.Respositories;
 
-public class TransactionsRespository : IRepository<Transaction>
+public class UserRepository : IRepository<User>
 {
     private PicpayDesafioBackendContext context;
-    public TransactionsRespository(PicpayDesafioBackendContext ctx)
+    public UserRepository(PicpayDesafioBackendContext ctx)
         => this.context = ctx;
 
-    public async Task<bool> Create(Transaction entity)
+    public async Task<bool> Create(User entity)
     {
         try
         {
-            await context.Transactions.AddAsync(entity);
+            await context.Users.AddAsync(entity);
             await context.SaveChangesAsync();
         }
         catch (System.Exception)
@@ -25,11 +25,11 @@ public class TransactionsRespository : IRepository<Transaction>
         return true;
     }
 
-    public async Task<bool> Delete(Transaction entity)
+    public async Task<bool> Delete(User entity)
     {
         try
         {
-            context.Transactions.Remove(entity);
+            context.Users.Remove(entity);
             await context.SaveChangesAsync();
         }
         catch (System.Exception)
@@ -39,11 +39,11 @@ public class TransactionsRespository : IRepository<Transaction>
         return true;
     }
 
-    public async Task<bool> Update(Transaction entity)
+    public async Task<bool> Update(User entity)
     {
         try
         {
-            context.Transactions.Update(entity);
+            context.Users.Update(entity);
             await context.SaveChangesAsync();
         }
         catch (System.Exception)
@@ -53,11 +53,11 @@ public class TransactionsRespository : IRepository<Transaction>
         return true;
     }
 
-    public async Task<List<Transaction>> Filter(Expression<Func<Transaction, bool>> expression)
+    public async Task<List<User>> Filter(Expression<Func<User, bool>> expression)
     {
         try
         {
-            var data = await context.Transactions.Where(expression).ToListAsync();
+            var data = await context.Users.Where(expression).ToListAsync();
             return data;
         }
         catch (System.Exception)
