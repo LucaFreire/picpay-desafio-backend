@@ -1,6 +1,6 @@
-using System.Net;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
 using picpay_desafio_backend.Model;
 using picpay_desafio_backend.Respositories;
 using picpay_desafio_backend.Services;
