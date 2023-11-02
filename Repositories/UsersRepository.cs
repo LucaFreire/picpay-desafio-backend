@@ -7,7 +7,7 @@ namespace picpay_desafio_backend.Respositories;
 
 public class UserRepository : IRepository<User>
 {
-    private PicpayDesafioBackendContext context;
+    readonly PicpayDesafioBackendContext context;
     public UserRepository(PicpayDesafioBackendContext ctx)
         => this.context = ctx;
 
@@ -60,9 +60,9 @@ public class UserRepository : IRepository<User>
             var data = await context.Users.Where(expression).ToListAsync();
             return data;
         }
-        catch (System.Exception)
+        catch (System.Exception error)
         {
-            throw;
+            throw new Exception(error.Message);
         }
     }
 }

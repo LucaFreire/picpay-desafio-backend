@@ -22,12 +22,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<PicpayDesafioBackendContext>();
-builder.Services.AddTransient<IRepository<Transaction>, TransactionsRespository>();
+builder.Services.AddTransient<IRepository<Transaction>, TransactionsRepository>();
 builder.Services.AddTransient<IRepository<User>, UserRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ITransactionsService, TransactionsService>();
-
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

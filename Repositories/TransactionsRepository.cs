@@ -5,10 +5,10 @@ using picpay_desafio_backend.Model;
 
 namespace picpay_desafio_backend.Respositories;
 
-public class TransactionsRespository : IRepository<Transaction>
+public class TransactionsRepository : IRepository<Transaction>
 {
-    private PicpayDesafioBackendContext context;
-    public TransactionsRespository(PicpayDesafioBackendContext ctx)
+    readonly PicpayDesafioBackendContext context;
+    public TransactionsRepository(PicpayDesafioBackendContext ctx)
         => this.context = ctx;
 
     public async Task<bool> Create(Transaction entity)
@@ -60,9 +60,9 @@ public class TransactionsRespository : IRepository<Transaction>
             var data = await context.Transactions.Where(expression).ToListAsync();
             return data;
         }
-        catch (System.Exception)
+        catch (System.Exception error)
         {
-            throw;
+            throw new Exception(error.Message);
         }
     }
 }
