@@ -1,7 +1,7 @@
 
 using System.Linq.Expressions;
 
-namespace picpay_desafio_backend.Respositories;
+namespace picpay_desafio_backend.Repositories;
 
 public interface IRepository<T>
 {

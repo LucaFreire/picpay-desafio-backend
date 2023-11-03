@@ -1,36 +1,21 @@
-using System.Collections.Immutable;
+
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using picpay_desafio_backend.Model;
 
-namespace picpay_desafio_backend.Respositories;
+namespace picpay_desafio_backend.Repositories;
 
-public class UserRepository : IRepository<User>
+public class TransactionsRepository : IRepository<Transaction>
 {
     readonly PicpayDesafioBackendContext context;
-    public UserRepository(PicpayDesafioBackendContext ctx)
+    public TransactionsRepository(PicpayDesafioBackendContext ctx)
         => this.context = ctx;
 
-    public async Task<bool> Create(User entity)
+    public async Task<bool> Create(Transaction entity)
     {
         try
         {
-            await context.Users.AddAsync(entity);
-            await context.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception error)
-        {
-            Console.WriteLine(error.Message);
-            return false;
-        }
-    }
-
-    public async Task<bool> Delete(User entity)
-    {
-        try
-        {
-            context.Users.Remove(entity);
+            await context.Transactions.AddAsync(entity);
             await context.SaveChangesAsync();
         }
         catch (System.Exception)
@@ -40,11 +25,11 @@ public class UserRepository : IRepository<User>
         return true;
     }
 
-    public async Task<bool> Update(User entity)
+    public async Task<bool> Delete(Transaction entity)
     {
         try
         {
-            context.Users.Update(entity);
+            context.Transactions.Remove(entity);
             await context.SaveChangesAsync();
         }
         catch (System.Exception)
@@ -54,11 +39,25 @@ public class UserRepository : IRepository<User>
         return true;
     }
 
-    public async Task<List<User>> Filter(Expression<Func<User, bool>> expression)
+    public async Task<bool> Update(Transaction entity)
     {
         try
         {
-            var data = await context.Users.Where(expression).ToListAsync();
+            context.Transactions.Update(entity);
+            await context.SaveChangesAsync();
+        }
+        catch (System.Exception)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public async Task<List<Transaction>> Filter(Expression<Func<Transaction, bool>> expression)
+    {
+        try
+        {
+            var data = await context.Transactions.Where(expression).ToListAsync();
             return data;
         }
         catch (System.Exception error)

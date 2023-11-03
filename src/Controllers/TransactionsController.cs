@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 using picpay_desafio_backend.Model;
-using picpay_desafio_backend.Respositories;
+using picpay_desafio_backend.Repositories;
 
 namespace picpay_desafio_backend.Controllers;
 
@@ -29,5 +29,4 @@ public class TransactionsController : ControllerBase
             return StatusCode(500, error.Message);
         }
     }
-
 }

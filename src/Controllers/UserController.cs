@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 using picpay_desafio_backend.Model;
-using picpay_desafio_backend.Respositories;
+using picpay_desafio_backend.Repositories;
 using picpay_desafio_backend.Services;
 
 namespace picpay_desafio_backend.Controllers;
@@ -58,5 +58,4 @@ public class UserController : ControllerBase
             return StatusCode(500, error.Message);
         }
     }
-
 }

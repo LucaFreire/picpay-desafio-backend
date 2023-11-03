@@ -4,4 +4,3 @@ public record TransactionDTO(
     decimal TransactionValue,
     int Payee,
     int Payer);
-
