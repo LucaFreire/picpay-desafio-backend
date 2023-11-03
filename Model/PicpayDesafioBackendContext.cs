@@ -27,7 +27,7 @@ public partial class PicpayDesafioBackendContext : DbContext
     {
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__transact__85C600AF750C42C1");
+            entity.HasKey(e => e.TransactionId).HasName("PK__transact__85C600AF05BB4E3C");
 
             entity.ToTable("transactions");
 
@@ -41,27 +41,26 @@ public partial class PicpayDesafioBackendContext : DbContext
             entity.HasOne(d => d.PayeeNavigation).WithMany(p => p.TransactionPayeeNavigations)
                 .HasForeignKey(d => d.Payee)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__transacti__payee__403A8C7D");
+                .HasConstraintName("FK__transacti__payee__5165187F");
 
             entity.HasOne(d => d.PayerNavigation).WithMany(p => p.TransactionPayerNavigations)
                 .HasForeignKey(d => d.Payer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__transacti__payer__412EB0B6");
+                .HasConstraintName("FK__transacti__payer__52593CB8");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__users__B9BE370F0D43499D");
+            entity.HasKey(e => e.UserId).HasName("PK__users__B9BE370FEF63504B");
 
             entity.ToTable("users");
 
-            entity.HasIndex(e => e.Document, "UQ__users__1D810B12012A54EE").IsUnique();
+            entity.HasIndex(e => e.Document, "UQ__users__1D810B12258C394C").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__users__AB6E6164A0438405").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__users__AB6E6164273ABB5F").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Balance)
-                .HasDefaultValueSql("((0))")
                 .HasColumnType("money")
                 .HasColumnName("balance");
             entity.Property(e => e.Document)
@@ -71,7 +70,7 @@ public partial class PicpayDesafioBackendContext : DbContext
                 .HasColumnName("document");
             entity.Property(e => e.Email)
                 .IsRequired()
-                .HasMaxLength(13)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("email");
             entity.Property(e => e.FullName)
@@ -79,11 +78,7 @@ public partial class PicpayDesafioBackendContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("full_name");
-            entity.Property(e => e.UserType)
-                .IsRequired()
-                .HasMaxLength(35)
-                .IsUnicode(false)
-                .HasColumnName("user_type");
+            entity.Property(e => e.UserType).HasColumnName("user_type");
         });
 
         OnModelCreatingPartial(modelBuilder);

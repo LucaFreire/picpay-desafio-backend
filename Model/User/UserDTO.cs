@@ -1,16 +1,8 @@
 using picpay_desafio_backend.Model;
 
-public record UserDTO
-{
-    public int UserId;
-
-    public string FullName;
-
-    public string Document;
-
-    public string Email;
-
-    public decimal Balance;
-
-    public UserType UserType;
-}
+public record UserDTO(
+    string FullName,
+    string Document,
+    string Email,
+    decimal Balance,
+    UserType UserType);

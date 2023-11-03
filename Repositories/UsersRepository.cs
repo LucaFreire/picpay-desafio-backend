@@ -17,12 +17,13 @@ public class UserRepository : IRepository<User>
         {
             await context.Users.AddAsync(entity);
             await context.SaveChangesAsync();
+            return true;
         }
-        catch (System.Exception)
+        catch (Exception error)
         {
+            Console.WriteLine(error.Message);
             return false;
         }
-        return true;
     }
 
     public async Task<bool> Delete(User entity)

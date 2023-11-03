@@ -1,4 +1,7 @@
-﻿namespace picpay_desafio_backend.Model;
+﻿using System;
+using System.Collections.Generic;
+
+namespace picpay_desafio_backend.Model;
 
 public partial class Transaction
 {
@@ -10,11 +13,13 @@ public partial class Transaction
 
     public int Payer { get; private set; }
 
+    private Transaction() { }
+
     public Transaction(TransactionDTO transactionDTO)
     {
-        transactionDTO.TransactionValue = TransactionValue;
-        transactionDTO.Payee = Payee;
-        transactionDTO.Payer = Payer;
+        TransactionValue = transactionDTO.TransactionValue;
+        Payee = transactionDTO.Payee;
+        Payer = transactionDTO.Payer;
     }
 
     public virtual User PayeeNavigation { get; private set; }

@@ -1,12 +1,7 @@
 namespace picpay_desafio_backend.Model;
 
-public record TransactionDTO
-{
-    public int TransactionId;
+public record TransactionDTO(
+    decimal TransactionValue,
+    int Payee,
+    int Payer);
 
-    public decimal TransactionValue;
-
-    public int Payee;
-
-    public int Payer;
-}

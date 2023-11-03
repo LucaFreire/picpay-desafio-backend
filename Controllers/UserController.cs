@@ -8,7 +8,7 @@ using picpay_desafio_backend.Services;
 namespace picpay_desafio_backend.Controllers;
 
 [ApiController]
-[Route("transactions")]
+[Route("user")]
 [EnableCors("MainPolicy")]
 public class UserController : ControllerBase
 {
@@ -31,7 +31,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPost("Register")]
+    [HttpPost("register")]
     public async Task<ActionResult> Register(
         [FromServices] IRepository<User> userRepository,
         [FromServices] IUserService userService,
@@ -45,12 +45,13 @@ public class UserController : ControllerBase
                 return BadRequest("Document or Email is already in use!");
 
             User newUser = new(userDTO);
+
             bool created = await userRepository.Create(newUser);
 
             if (!created)
                 return BadRequest();
 
-            return Ok();
+            return Ok(newUser);
         }
         catch (Exception error)
         {
