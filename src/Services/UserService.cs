@@ -45,7 +45,7 @@ public class UserService : IUserService
     {
         try
         {
-            if (payer.Balance >= transactionDTO.TransactionValue)
+            if (payer.Balance >= transactionDTO.value)
                 return true;
             return false;
         }
@@ -59,18 +59,9 @@ public class UserService : IUserService
     {
         try
         {
-            var payer = await GetUserById(transactionDTO.Payer);
-            if (payer is null)
-            {
-                throw new Exception("Payer is not valid");
-            }
+            var payer = await GetUserById(transactionDTO.payer) ?? throw new Exception("Payer is not valid");
+            var payee = await GetUserById(transactionDTO.payee) ?? throw new Exception("Payee is not valid");
 
-            var payee = await GetUserById(transactionDTO.Payee);
-            if (payee is null)
-            {
-                throw new Exception("Payee is not valid");
-            }
-            
             return (payer, payee);
         }
         catch (System.Exception error)

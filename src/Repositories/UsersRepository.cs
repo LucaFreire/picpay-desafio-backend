@@ -40,6 +40,18 @@ public class UserRepository : IRepository<User>
         return true;
     }
 
+    public bool UpdateNoSave(User entity)
+    {
+        try
+        {
+            context.Users.Update(entity);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+        return true;
+    }
     public async Task<bool> Delete(User entity)
     {
         try
@@ -66,4 +78,6 @@ public class UserRepository : IRepository<User>
             throw new Exception(error.Message);
         }
     }
+
+    
 }

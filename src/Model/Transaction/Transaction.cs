@@ -18,9 +18,9 @@ public partial class Transaction
 
     public Transaction(TransactionDTO transactionDTO)
     {
-        TransactionValue = transactionDTO.TransactionValue;
-        Payee = transactionDTO.Payee;
-        Payer = transactionDTO.Payer;
+        TransactionValue = transactionDTO.value;
+        Payee = transactionDTO.payee;
+        Payer = transactionDTO.payer;
     }
 
     [JsonIgnore]

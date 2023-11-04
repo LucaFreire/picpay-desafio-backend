@@ -12,6 +12,8 @@ namespace picpay_desafio_backend.Controllers;
 [EnableCors("MainPolicy")]
 public class TransactionsController : ControllerBase
 {
+    PicpayDesafioBackendContext a;
+
     [HttpGet]
     public async Task<ActionResult<List<Transaction>>> Get(
         [FromServices] IRepository<Transaction> transactionRepository)
@@ -34,7 +36,7 @@ public class TransactionsController : ControllerBase
     [HttpPost("transfer")]
     public async Task<ActionResult> Transfer(
         [FromBody] TransactionDTO transactionDTO,
-        [FromServices] ITransferService transferService,
+        [FromServices] ITransactionService transactionService,
         [FromServices] IUserService userService,
         [FromServices] IAuthorizeService authorizeService,
         [FromServices] IRepository<User> userRepository,
@@ -48,9 +50,9 @@ public class TransactionsController : ControllerBase
 
             (User payer, User payee) = await userService.IsTransactionUsersValid(transactionDTO);
             if (payer is null || payee is null)
-                return StatusCode(401, "Invalid payee or payer.");
+                return NotFound("Invalid payee or payer.");
 
-            bool isValidPlayer = transferService.IsValidPlayer(payer);
+            bool isValidPlayer = transactionService.IsValidPayer(payer);
             if (!isValidPlayer)
                 return StatusCode(401, "Transfer not authorized, make sure that your user's type is valid.");
 
@@ -58,13 +60,13 @@ public class TransactionsController : ControllerBase
             if (!isEnoughMoneyToPayment)
                 return StatusCode(401, "Not enough money to transfer.");
 
-            payer.RemoveMoney(transactionDTO.TransactionValue);
-            payee.AddMoney(transactionDTO.TransactionValue);
+            payer.RemoveMoney(transactionDTO.value);
+            payee.AddMoney(transactionDTO.value);
             Transaction transaction = new(transactionDTO);
 
+            userRepository.UpdateNoSave(payer);
+            userRepository.UpdateNoSave(payee);
             await transactionRepository.Create(transaction);
-            await userRepository.Update(payer);
-            await userRepository.Update(payee);
         }
         catch (Exception error)
         {

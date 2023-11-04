@@ -26,7 +26,7 @@ builder.Services.AddTransient<IRepository<Transaction>, TransactionsRepository>(
 builder.Services.AddTransient<IRepository<User>, UserRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ITransferService, TransferService>();
+builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddTransient<IAuthorizeService, AuthorizeService>();
 
 var app = builder.Build();
