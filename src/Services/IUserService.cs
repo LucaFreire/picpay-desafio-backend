@@ -5,6 +5,7 @@ namespace picpay_desafio_backend.Services;
 public interface IUserService
 {
     Task<User> GetUserById(int id);
+    Task<(User payer, User payee)> IsTransactionUsersValid(TransactionDTO transactionDTO);
     Task<bool> IsNewUser(string email, string document);
-    Task<bool> IsSufficientMoney(Transaction transaction);
+    bool IsSufficientMoney(User payer, TransactionDTO transactionDTO);
 }

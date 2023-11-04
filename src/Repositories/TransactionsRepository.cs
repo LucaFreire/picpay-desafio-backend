@@ -9,7 +9,7 @@ public class TransactionsRepository : IRepository<Transaction>
 {
     readonly PicpayDesafioBackendContext context;
     public TransactionsRepository(PicpayDesafioBackendContext ctx)
-        => this.context = ctx;
+        => context = ctx;
 
     public async Task<bool> Create(Transaction entity)
     {
@@ -18,9 +18,9 @@ public class TransactionsRepository : IRepository<Transaction>
             await context.Transactions.AddAsync(entity);
             await context.SaveChangesAsync();
         }
-        catch (System.Exception)
+        catch (Exception error)
         {
-            return false;
+            throw new Exception(error.Message);
         }
         return true;
     }
@@ -32,9 +32,9 @@ public class TransactionsRepository : IRepository<Transaction>
             context.Transactions.Remove(entity);
             await context.SaveChangesAsync();
         }
-        catch (System.Exception)
+        catch (Exception error)
         {
-            return false;
+            throw new Exception(error.Message);
         }
         return true;
     }
@@ -46,13 +46,26 @@ public class TransactionsRepository : IRepository<Transaction>
             context.Transactions.Update(entity);
             await context.SaveChangesAsync();
         }
-        catch (System.Exception)
+        catch (Exception error)
         {
-            return false;
+            throw new Exception(error.Message);
         }
         return true;
     }
 
+    public bool UpdateNoSave(Transaction entity)
+    {
+        try
+        {
+            context.Transactions.Update(entity);
+        }
+        catch (Exception error)
+        {
+            throw new Exception(error.Message);
+        }
+        return true;
+    }
+    
     public async Task<List<Transaction>> Filter(Expression<Func<Transaction, bool>> expression)
     {
         try
@@ -60,7 +73,7 @@ public class TransactionsRepository : IRepository<Transaction>
             var data = await context.Transactions.Where(expression).ToListAsync();
             return data;
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             throw new Exception(error.Message);
         }

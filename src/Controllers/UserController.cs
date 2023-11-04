@@ -33,9 +33,9 @@ public class UserController : ControllerBase
 
     [HttpPost("register")]
     public async Task<ActionResult> Register(
+        [FromBody] UserDTO userDTO,
         [FromServices] IRepository<User> userRepository,
-        [FromServices] IUserService userService,
-        [FromBody] UserDTO userDTO)
+        [FromServices] IUserService userService)
     {
         try
         {

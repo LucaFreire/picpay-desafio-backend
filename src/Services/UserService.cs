@@ -41,12 +41,32 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<bool> IsSufficientMoney(Transaction transaction)
+    public bool IsSufficientMoney(User payer, TransactionDTO transactionDTO)
     {
-        var payer = await GetUserById(transaction.Payer);
+        try
+        {
+            if (payer.Balance >= transactionDTO.TransactionValue)
+                return true;
+            return false;
+        }
+        catch (System.Exception error)
+        {
+            throw new Exception(error.Message);
+        }
+    }
 
-        if(payer.Balance >= transaction.TransactionValue)
-            return true;
-        return false;
+    public async Task<(User payer, User payee)> IsTransactionUsersValid(TransactionDTO transactionDTO)
+    {
+        try
+        {
+            var payer = await GetUserById(transactionDTO.Payee) ?? throw new Exception("Payer is not valid");
+            var payee = await GetUserById(transactionDTO.Payee) ?? throw new Exception("Payee is not valid");
+
+            return (payer, payee);
+        }
+        catch (Exception error)
+        {
+            throw new Exception(error.Message);
+        }
     }
 }

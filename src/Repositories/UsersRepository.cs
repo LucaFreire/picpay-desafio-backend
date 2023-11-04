@@ -26,11 +26,11 @@ public class UserRepository : IRepository<User>
         }
     }
 
-    public async Task<bool> Delete(User entity)
+    public async Task<bool> Update(User entity)
     {
         try
         {
-            context.Users.Remove(entity);
+            context.Users.Update(entity);
             await context.SaveChangesAsync();
         }
         catch (Exception)
@@ -40,11 +40,11 @@ public class UserRepository : IRepository<User>
         return true;
     }
 
-    public async Task<bool> Update(User entity)
+    public async Task<bool> Delete(User entity)
     {
         try
         {
-            context.Users.Update(entity);
+            context.Users.Remove(entity);
             await context.SaveChangesAsync();
         }
         catch (Exception)

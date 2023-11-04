@@ -26,13 +26,15 @@ builder.Services.AddTransient<IRepository<Transaction>, TransactionsRepository>(
 builder.Services.AddTransient<IRepository<User>, UserRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITransferService, TransferService>();
+builder.Services.AddTransient<IAuthorizeService, AuthorizeService>();
 
 var app = builder.Build();
-if (app.Environment.IsProduction())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsProduction())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

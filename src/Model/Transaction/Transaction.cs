@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace picpay_desafio_backend.Model;
 
@@ -22,7 +23,9 @@ public partial class Transaction
         Payer = transactionDTO.Payer;
     }
 
+    [JsonIgnore]
     public virtual User PayeeNavigation { get; private set; }
-
+    
+    [JsonIgnore]
     public virtual User PayerNavigation { get; private set; }
 }
