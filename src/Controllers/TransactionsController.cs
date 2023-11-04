@@ -20,8 +20,8 @@ public class TransactionsController : ControllerBase
         {
             var data = await transactionRepository.Filter(_ => true);
 
-            // if (data is null)
-            //     return BadRequest();
+            if (data is null)
+                return BadRequest();
 
             return Ok(data);
         }
@@ -42,25 +42,21 @@ public class TransactionsController : ControllerBase
     {
         try
         {
-            // bool isPaymentAuthorized = await authorizeService.Authorized();
-            // if (!isPaymentAuthorized)
-            //     return StatusCode(401, "Transfer not authorized.");
+            bool isPaymentAuthorized = await authorizeService.Authorized();
+            if (!isPaymentAuthorized)
+                return StatusCode(401, "Transfer not authorized.");
 
-            // (User payer, User payee) = await userService.IsTransactionUsersValid(transactionDTO);
-            // if (payer is null || payee is null)
-            //     return StatusCode(401, "Invalid payee or payer.");
+            (User payer, User payee) = await userService.IsTransactionUsersValid(transactionDTO);
+            if (payer is null || payee is null)
+                return StatusCode(401, "Invalid payee or payer.");
 
-            // bool isValidPlayer = transferService.IsValidPlayer(payer);
-            // if (!isValidPlayer)
-            //     return StatusCode(401, "Transfer not authorized, make sure that your user's type is valid.");
+            bool isValidPlayer = transferService.IsValidPlayer(payer);
+            if (!isValidPlayer)
+                return StatusCode(401, "Transfer not authorized, make sure that your user's type is valid.");
 
-            // bool isEnoughMoneyToPayment = userService.IsSufficientMoney(payer, transactionDTO);
-            // if (!isEnoughMoneyToPayment)
-            //     return StatusCode(401, "Not enough money to transfer.");
-
-
-            var payer = await userService.GetUserById(transactionDTO.Payer);
-            var payee = await userService.GetUserById(transactionDTO.Payee);
+            bool isEnoughMoneyToPayment = userService.IsSufficientMoney(payer, transactionDTO);
+            if (!isEnoughMoneyToPayment)
+                return StatusCode(401, "Not enough money to transfer.");
 
             payer.RemoveMoney(transactionDTO.TransactionValue);
             payee.AddMoney(transactionDTO.TransactionValue);

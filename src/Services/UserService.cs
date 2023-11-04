@@ -59,12 +59,21 @@ public class UserService : IUserService
     {
         try
         {
-            var payer = await GetUserById(transactionDTO.Payee) ?? throw new Exception("Payer is not valid");
-            var payee = await GetUserById(transactionDTO.Payee) ?? throw new Exception("Payee is not valid");
+            var payer = await GetUserById(transactionDTO.Payer);
+            if (payer is null)
+            {
+                throw new Exception("Payer is not valid");
+            }
 
+            var payee = await GetUserById(transactionDTO.Payee);
+            if (payee is null)
+            {
+                throw new Exception("Payee is not valid");
+            }
+            
             return (payer, payee);
         }
-        catch (Exception error)
+        catch (System.Exception error)
         {
             throw new Exception(error.Message);
         }
