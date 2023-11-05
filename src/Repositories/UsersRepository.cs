@@ -21,8 +21,7 @@ public class UserRepository : IRepository<User>
         }
         catch (Exception error)
         {
-            Console.WriteLine(error.Message);
-            return false;
+            throw new Exception(error.Message);
         }
     }
 
@@ -32,12 +31,12 @@ public class UserRepository : IRepository<User>
         {
             context.Users.Update(entity);
             await context.SaveChangesAsync();
+            return true;
         }
-        catch (Exception)
+        catch (Exception error)
         {
-            return false;
+            throw new Exception(error.Message);
         }
-        return true;
     }
 
     public bool UpdateNoSave(User entity)
@@ -45,25 +44,26 @@ public class UserRepository : IRepository<User>
         try
         {
             context.Users.Update(entity);
+            return true;
         }
-        catch (Exception)
+        catch (Exception error)
         {
-            return false;
+            throw new Exception(error.Message);
         }
-        return true;
     }
+
     public async Task<bool> Delete(User entity)
     {
         try
         {
             context.Users.Remove(entity);
             await context.SaveChangesAsync();
+            return true;
         }
-        catch (Exception)
+        catch (Exception error)
         {
-            return false;
+            throw new Exception(error.Message);
         }
-        return true;
     }
 
     public async Task<List<User>> Filter(Expression<Func<User, bool>> expression)
@@ -78,6 +78,4 @@ public class UserRepository : IRepository<User>
             throw new Exception(error.Message);
         }
     }
-
-    
 }

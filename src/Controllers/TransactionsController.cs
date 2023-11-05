@@ -8,12 +8,10 @@ using picpay_desafio_backend.Repositories;
 namespace picpay_desafio_backend.Controllers;
 
 [ApiController]
-[Route("transaction")]
+[Route("transactions")]
 [EnableCors("MainPolicy")]
 public class TransactionsController : ControllerBase
 {
-    PicpayDesafioBackendContext a;
-
     [HttpGet]
     public async Task<ActionResult<List<Transaction>>> Get(
         [FromServices] IRepository<Transaction> transactionRepository)
@@ -33,7 +31,7 @@ public class TransactionsController : ControllerBase
         }
     }
 
-    [HttpPost("transfer")]
+    [HttpPost("transaction")]
     public async Task<ActionResult> Transfer(
         [FromBody] TransactionDTO transactionDTO,
         [FromServices] ITransactionService transactionService,
@@ -49,8 +47,6 @@ public class TransactionsController : ControllerBase
                 return StatusCode(401, "Transfer not authorized.");
 
             (User payer, User payee) = await userService.IsTransactionUsersValid(transactionDTO);
-            if (payer is null || payee is null)
-                return NotFound("Invalid payee or payer.");
 
             bool isValidPlayer = transactionService.IsValidPayer(payer);
             if (!isValidPlayer)
@@ -67,11 +63,12 @@ public class TransactionsController : ControllerBase
             userRepository.UpdateNoSave(payer);
             userRepository.UpdateNoSave(payee);
             await transactionRepository.Create(transaction);
+
+            return Ok(transaction);
         }
         catch (Exception error)
         {
             return StatusCode(500, error.Message);
         }
-        return Ok();
     }
 }

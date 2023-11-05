@@ -39,10 +39,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            bool isNewUser = await userService.IsNewUser(userDTO.Email, userDTO.Document);
-
-            if (!isNewUser)
-                return BadRequest("Document or Email is already in use!");
+            var isNewUser = await userService.IsNewUser(userDTO.Email, userDTO.Document);
 
             User newUser = new(userDTO);
 

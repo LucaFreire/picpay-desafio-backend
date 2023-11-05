@@ -15,14 +15,15 @@ public class TransactionsRepository : IRepository<Transaction>
     {
         try
         {
-            await context.Transactions.AddAsync(entity);
-            await context.SaveChangesAsync();
+            var x = await context.Transactions.AddAsync(entity);
+            var xz = await context.SaveChangesAsync();
+         
+            return true;
         }
         catch (Exception error)
         {
             throw new Exception(error.Message);
         }
-        return true;
     }
 
     public async Task<bool> Delete(Transaction entity)
@@ -31,12 +32,12 @@ public class TransactionsRepository : IRepository<Transaction>
         {
             context.Transactions.Remove(entity);
             await context.SaveChangesAsync();
+            return true;
         }
         catch (Exception error)
         {
             throw new Exception(error.Message);
         }
-        return true;
     }
 
     public async Task<bool> Update(Transaction entity)
@@ -45,12 +46,12 @@ public class TransactionsRepository : IRepository<Transaction>
         {
             context.Transactions.Update(entity);
             await context.SaveChangesAsync();
+            return true;
         }
         catch (Exception error)
         {
             throw new Exception(error.Message);
         }
-        return true;
     }
 
     public bool UpdateNoSave(Transaction entity)
@@ -58,14 +59,14 @@ public class TransactionsRepository : IRepository<Transaction>
         try
         {
             context.Transactions.Update(entity);
+            return true;
         }
         catch (Exception error)
         {
             throw new Exception(error.Message);
         }
-        return true;
     }
-    
+
     public async Task<List<Transaction>> Filter(Expression<Func<Transaction, bool>> expression)
     {
         try

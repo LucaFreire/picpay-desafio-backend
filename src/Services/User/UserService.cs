@@ -27,15 +27,15 @@ public class UserService : IUserService
         {
             var isNewEmail = await context.Users.FirstOrDefaultAsync(user => user.Email == email);
             if (isNewEmail is not null)
-                return false;
+                throw new Exception("Email already in use");
 
             var isNewDocument = await context.Users.FirstOrDefaultAsync(user => user.Document == document);
             if (isNewDocument is not null)
-                return false;
+                throw new Exception("Document already in use");
 
             return true;
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             throw new Exception(error.Message);
         }
@@ -43,16 +43,9 @@ public class UserService : IUserService
 
     public bool IsSufficientMoney(User payer, TransactionDTO transactionDTO)
     {
-        try
-        {
-            if (payer.Balance >= transactionDTO.value)
-                return true;
-            return false;
-        }
-        catch (System.Exception error)
-        {
-            throw new Exception(error.Message);
-        }
+        if (payer.Balance >= transactionDTO.value)
+            return true;
+        return false;
     }
 
     public async Task<(User payer, User payee)> IsTransactionUsersValid(TransactionDTO transactionDTO)
